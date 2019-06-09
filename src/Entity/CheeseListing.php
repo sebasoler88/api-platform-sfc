@@ -3,13 +3,16 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource(
  *     shortName="Cheeses",
  *     collectionOperations={
- *          "get"={"path"="/i-love-cheeses/{id}"},
+ *          "get",
  *          "post"
  * },
  *     itemOperations={"get", "put"}
@@ -50,6 +53,11 @@ class CheeseListing
      */
     private $isPublished;
 
+    public function __construct()
+    {
+        $this->createdAt = new CarbonImmutable;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -72,9 +80,9 @@ class CheeseListing
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setTextDescription(string $description)
     {
-        $this->description = $description;
+        $this->description = nl2br($description);
 
         return $this;
     }
@@ -96,11 +104,9 @@ class CheeseListing
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function getCreatedAtAgo(): string
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        return CarbonImmutable::instance($this->createdAt)->diffForHumans();
     }
 
     public function getIsPublished(): ?bool
