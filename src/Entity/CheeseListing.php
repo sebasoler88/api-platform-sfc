@@ -20,7 +20,8 @@ use Symfony\Component\Serializer\Annotation\{Groups, SerializedName};
  *     denormalizationContext={"groups"={"cheese_listing:write"}, "swagger_definition_name"="Write"},
  *     itemOperations={"get", "put"},
  *     attributes={
-            "pagination_items_per_page"=6
+            "pagination_items_per_page"=5,
+ *          "formats"={"jsonld", "json", "html", "jsonhal", "csv"={"text/csv"}}
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\CheeseListingRepository")
