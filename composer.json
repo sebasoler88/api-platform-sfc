@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "api-platform/api-pack": "^1.2",
         "doctrine/doctrine-migrations-bundle": "^2.0",
+        "fzaninotto/faker": "^1.8",
         "nesbot/carbon": "^2.19",
         "symfony/console": "4.3.*",
         "symfony/dotenv": "4.3.*",
@@ -60,6 +61,7 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.2",
         "symfony/maker-bundle": "^1.11",
         "symfony/profiler-pack": "^1.0"
     }

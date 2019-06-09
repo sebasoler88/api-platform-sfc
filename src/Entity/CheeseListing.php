@@ -18,7 +18,10 @@ use Symfony\Component\Serializer\Annotation\{Groups, SerializedName};
  *     },
  *     normalizationContext={"groups"={"cheese_listing:read"}, "swagger_definition_name"="Read"},
  *     denormalizationContext={"groups"={"cheese_listing:write"}, "swagger_definition_name"="Write"},
- *     itemOperations={"get", "put"}
+ *     itemOperations={"get", "put"},
+ *     attributes={
+            "pagination_items_per_page"=6
+ *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\CheeseListingRepository")
  * @ApiFilter(BooleanFilter::class, properties={"isPublished"})
@@ -98,9 +101,11 @@ class CheeseListing
         return substr($this->description, 0, 40) . '...';
     }
 
-    public function setDescription($description): void
+    public function setDescription($description): self
     {
         $this->description = $description;
+
+        return $this;
     }
 
     /**
