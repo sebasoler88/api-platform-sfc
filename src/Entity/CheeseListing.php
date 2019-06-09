@@ -6,7 +6,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource(shortName="Chisitos")
+ * @ApiResource(
+ *     shortName="Cheeses",
+ *     collectionOperations={
+ *          "get"={"path"="/i-love-cheeses/{id}"},
+ *          "post"
+ * },
+ *     itemOperations={"get", "put"}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\CheeseListingRepository")
  */
 class CheeseListing
