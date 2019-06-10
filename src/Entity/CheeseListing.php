@@ -8,6 +8,7 @@ use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use Carbon\CarbonImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\{Groups, SerializedName};
+use Symfony\Component\Validator\Constraints\{Length, NotBlank};
 
 /**
  * @ApiResource(
@@ -20,7 +21,7 @@ use Symfony\Component\Serializer\Annotation\{Groups, SerializedName};
  *     denormalizationContext={"groups"={"cheese_listing:write"}, "swagger_definition_name"="Write"},
  *     itemOperations={"get", "put"},
  *     attributes={
-            "pagination_items_per_page"=5,
+ *          "pagination_items_per_page"=5,
  *          "formats"={"jsonld", "json", "html", "jsonhal", "csv"={"text/csv"}}
  *     }
  * )
@@ -42,12 +43,20 @@ class CheeseListing
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"cheese_listing:read", "cheese_listing:write"})
+     * @NotBlank()
+     * @Length(
+     *    min=2,
+     *    max=50,
+     *    maxMessage="Describe your cheese in 50 chard or less"
+     * )
+     *
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
      * @Groups({"cheese_listing:read"})
+     * @NotBlank()
      */
     private $description;
 
@@ -56,6 +65,7 @@ class CheeseListing
      *
      * @ORM\Column(type="integer")
      * @Groups({"cheese_listing:read", "cheese_listing:write"})
+     * @NotBlank()
      */
     private $price;
 
