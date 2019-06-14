@@ -2,11 +2,21 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ApiResource(
+ *     normalizationContext={"groups"={"user:read"}, "swagger_definition_name"="Read"},
+ *     denormalizationContext={"groups"={"user:write"}, "swagger_definition_name"="Write"},
+ * )
+ * @UniqueEntity(fields={"username"})
+ * @UniqueEntity(fields={"email"})
  */
 class User implements UserInterface
 {
@@ -19,6 +29,9 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"user:read", "user:write"})
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
     private $email;
 
@@ -30,11 +43,15 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups({"user:write"})
+     * @Assert\NotBlank()
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups({"user:read", "user:write"})
+     * @Assert\NotBlank()
      */
     private $username;
 
@@ -62,7 +79,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -89,7 +106,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
