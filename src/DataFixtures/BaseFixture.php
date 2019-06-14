@@ -32,7 +32,11 @@ abstract class BaseFixture extends Fixture
     public function createMany($count, callable $factory): void
     {
         for ($i = 0; $i < $count; $i++) {
-            $this->manager->persist($factory());
+            $entity = $factory();
+
+            $this->manager->persist($entity);
+
+            $this->addReference(get_class($entity) . '_' . $i, $entity);
         }
     }
 }
