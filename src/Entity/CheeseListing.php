@@ -13,13 +13,15 @@ use Symfony\Component\Validator\Constraints\{Length, NotBlank};
 /**
  * @ApiResource(
  *     shortName="Cheeses",
- *     collectionOperations={
- *          "get",
- *          "post"
+ *     collectionOperations={"get", "post"},
+ *     itemOperations={
+ *        "get"={
+ *            "normalization_context"={"groups"={"cheese_listing:read", "cheese_listing:item:get"}}
+ *         },
+ *         "put"
  *     },
  *     normalizationContext={"groups"={"cheese_listing:read"}, "swagger_definition_name"="Read"},
  *     denormalizationContext={"groups"={"cheese_listing:write"}, "swagger_definition_name"="Write"},
- *     itemOperations={"get", "put"},
  *     attributes={
  *          "pagination_items_per_page"=5,
  *          "formats"={"jsonld", "json", "html", "jsonhal", "csv"={"text/csv"}}
@@ -42,7 +44,7 @@ class CheeseListing
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"cheese_listing:read", "cheese_listing:write"})
+     * @Groups({"cheese_listing:read", "cheese_listing:write", "user:read"})
      * @NotBlank()
      * @Length(
      *    min=2,
@@ -64,7 +66,7 @@ class CheeseListing
      * The price of this delicious cheese, in cents.
      *
      * @ORM\Column(type="integer")
-     * @Groups({"cheese_listing:read", "cheese_listing:write"})
+     * @Groups({"cheese_listing:read", "cheese_listing:write", "user:read"})
      * @NotBlank()
      */
     private $price;
