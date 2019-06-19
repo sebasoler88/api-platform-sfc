@@ -8,6 +8,7 @@ use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use Carbon\CarbonImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\{Groups, SerializedName};
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\{Length, NotBlank};
 
 /**
@@ -85,6 +86,7 @@ class CheeseListing
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="cheeseListings")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"cheese_listing:read", "cheese_listing:write"})
+     * @Assert\Valid()
      */
     private $owner;
 
